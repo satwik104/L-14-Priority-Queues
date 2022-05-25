@@ -1,0 +1,73 @@
+#include <vector>
+
+class PriorityQueue {
+    vector<int> pq;
+
+   public:
+    bool isEmpty() { 
+        return pq.size() == 0; 
+    }
+
+    int getSize() { 
+        return pq.size(); 
+    }
+
+    int getMin() {
+        if (isEmpty()) {
+            return 0;
+        }
+
+        return pq[0];
+    }
+
+    void insert(int element) {
+        pq.push_back(element);
+
+        int childIndex = pq.size() - 1;
+
+        while (childIndex > 0) {
+            int parentIndex = (childIndex - 1) / 2;
+
+            if (pq[childIndex] < pq[parentIndex]) {
+                int temp = pq[childIndex];
+                pq[childIndex] = pq[parentIndex];
+                pq[parentIndex] = temp;
+            } else {
+                break;
+            }
+
+            childIndex = parentIndex;
+        }
+    }
+//Time coplexity of Heap sort - O(nlogn)
+//space coplexity of heap sort -O(n)
+    int removeMin() {
+        int ans = pq[0];//placing root node which is min in the ans, which we will return in last
+        pq[0]=pq[pq.size()-1];//coping last element in place of root node
+        pq.pop_back();//removing the last element space
+        int pi = 0,LCI = 2*pi+1,RCI = 2*pi+2;//parent index, left child index, right child index
+       // now we need to perform down hepify
+        //we need to get minimum of parent and children
+        while(LCI<pq.size())//we check if lci is within limit or not
+        {
+            int minIndex = pi;//minIndex will be the index carrying the min value...out of 3
+            if(pq[minIndex]>pq[LCI])
+                minIndex = LCI;
+            //check if rci is also with in limit or not
+            if(RCI<pq.size() && pq[minIndex]>pq[RCI])
+                minIndex = RCI;
+            //if both of the above if do not run then it means we dont need to swap anymore
+            if(pi == minIndex)
+                break;
+            //now we got the index with which we need to swapp so do it
+            int temp = pq[pi];
+            pq[pi] = pq[minIndex];
+            pq[minIndex] = temp;
+            //now update pi,lci,rci
+            pi=minIndex;//because after swapping the number is at minIndex...so it will be our new pi
+            LCI=2*pi+1;
+            RCI=2*pi+2;
+        }
+        return ans;
+    }
+};
