@@ -1,0 +1,27 @@
+#include<queue>
+vector<int> kSmallest(int arr[], int n, int k) {
+    vector<int> ans;
+    priority_queue <int> pq; 
+    //placing starting k elements in the ans vector
+    for(int i=0;i<k;i++)
+    {
+        pq.push(arr[i]);
+    }
+    //now comparing the max of these k elements with remaining in the array
+    
+    for(int i=k;i<n;i++)
+    {
+        if(pq.top()>arr[i])
+        {
+            pq.pop();
+            pq.push(arr[i]);
+        }
+    }
+    //now convert the heap into vector to return it
+    while(!pq.empty())
+    {
+        ans.push_back(pq.top());
+        pq.pop();
+    }
+    return ans;
+}
