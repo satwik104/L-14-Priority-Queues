@@ -1,0 +1,23 @@
+#include<queue>
+vector<int> mergeKSortedArrays(vector<vector<int>*> input) {
+    //using min heap
+    priority_queue<int,vector<int>,greater<int>> pq;
+    //we have vectors inside vector...so at each i of main vector we have a vector
+    for(int i=0;i<input.size();i++)//for main vector
+    {
+        for(int j=0;j<input[i]->size();j++)//for inside vectors
+        {
+            pq.push(input[i]->at(j));
+        }
+    }
+    //now we all the numbers from all arrays in one pq...min heap
+    //so we simply remove parent every time..and we will get min of all...every time
+    vector<int>ans;
+    while(!pq.empty())
+    {
+        ans.push_back(pq.top());
+        pq.pop();
+    }
+    return ans;
+    
+}
