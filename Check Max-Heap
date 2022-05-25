@@ -1,0 +1,13 @@
+bool isMaxHeap(int arr[], int n) {
+    // We need to check that is it a max heap or not...that means
+    //parent should be bigger then its both child
+    int i=0;
+    while(2*i+1 <n)
+    {
+        if(arr[i]>arr[2*i+1] && arr[i]>arr[2*i+2])
+            i++;
+        else
+            return false;
+    }
+    return true;
+}
